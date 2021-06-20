@@ -1,0 +1,29 @@
+name: EC2 Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Operations
+        uses: alinz/ssh-scp-action@master
+        env:
+          HELLO: cool
+          MESSAGE: hello world
+        with:
+          key: ${{ secrets.EC2_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          port: 22
+          user: ${{ secrets.EC2_USER }}
+          ssh_before: |
+            sudo pm2 kill
+            cd /var/www/ipaasincendin
+            git pull
+            sudo rm -rf node_modules package-lock.json
+            sudo npm install
+            sudo npm run build
+            cd src
+            sudo pm2 start index.js
