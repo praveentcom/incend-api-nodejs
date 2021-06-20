@@ -18,12 +18,12 @@ jobs:
           ssh_before: |
             sudo pm2 kill
             cd /var/www/ipaasincendin
-            git stash
-            git stash drop
-            git fetch --all
-            git reset --hard HEAD
-            git clean -f -d
-            git pull
+            sudo git stash
+            sudo git stash drop
+            sudo git fetch --all
+            sudo git reset --hard HEAD
+            sudo git clean -f -d
+            sudo git pull
             sudo rm -rf node_modules package-lock.json
             sudo npm install
             cd src
