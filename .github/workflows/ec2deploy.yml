@@ -18,6 +18,8 @@ jobs:
           ssh_before: |
             sudo pm2 kill
             cd /var/www/ipaasincendin
+            git stash
+            git stash drop
             git pull
             sudo rm -rf node_modules package-lock.json
             sudo npm install
