@@ -24,4 +24,4 @@ jobs:
           port: 22
           user: ${{ secrets.EC2_USER }}
           pass: ${{ secrets.EC2_PASSWORD }}
-          key: ${{ secrets.PRIVATE_KEY}}
+          key: ${{ secrets.EC2_KEY}}
