@@ -20,6 +20,9 @@ jobs:
             cd /var/www/ipaasincendin
             git stash
             git stash drop
+            git fetch --all
+            git reset --hard HEAD
+            git clean -f -d
             git pull
             sudo rm -rf node_modules package-lock.json
             sudo npm install
