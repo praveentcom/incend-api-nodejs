@@ -8,14 +8,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH Pipeline
-        uses: cross-the-world/ssh-pipeline@v1.2.0
-        with:  
+      - name: SSH Operations
+        uses: alinz/ssh-scp-action@master
+        with:
+          port: 22
+          key: ${{ secrets.EC2_KEY }}
           host: ${{ secrets.EC2_HOST }}
           user: ${{ secrets.EC2_USER }}
-          pass: ${{ secrets.EC2_PASSWORD }}
-          key: ${{ secrets.EC2_KEY}}
-          script: |
+          ssh_before: |
             sudo pm2 kill
             cd /var/www/ipaasincendin
             git pull
