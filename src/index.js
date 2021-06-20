@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 app.use(helmet());
 app.use(bodyParser.json());
