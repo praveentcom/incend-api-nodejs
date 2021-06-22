@@ -8,17 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout Files
         uses: actions/checkout@v2
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@4.1
-        with:
-          switches: -avzr --delete
-          remote_path: /var/www/ipaasincendin/
-          remote_host: ${{ secrets.EC2_HOST }}
-          remote_user: ${{ secrets.EC2_USER }}
-          remote_key: ${{ secrets.EC2_KEY }}
-      - name: SSH Operations
+      - name: Stop PM2
         uses: alinz/ssh-scp-action@master
         with:
           port: 22
@@ -27,6 +19,22 @@ jobs:
           user: ${{ secrets.EC2_USER }}
           ssh_before: |
             sudo pm2 kill
+      - name: Copy Files
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          remote_path: /var/www/ipaasincendin/
+          remote_host: ${{ secrets.EC2_HOST }}
+          remote_user: ${{ secrets.EC2_USER }}
+          remote_key: ${{ secrets.EC2_KEY }}
+      - name: Start PM2
+        uses: alinz/ssh-scp-action@master
+        with:
+          port: 22
+          key: ${{ secrets.EC2_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          user: ${{ secrets.EC2_USER }}
+          ssh_before: |
             sudo rm -rf node_modules package-lock.json
             sudo npm install
             cd src
