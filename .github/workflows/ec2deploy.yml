@@ -18,7 +18,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           user: ${{ secrets.EC2_USER }}
           ssh_before: |
-            sudo pm2 kill
+            pm2 kill
       - name: Copy Files
         uses: burnett01/rsync-deployments@4.1
         with:
@@ -35,7 +35,6 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           user: ${{ secrets.EC2_USER }}
           ssh_before: |
-            sudo rm -rf node_modules package-lock.json
             sudo npm install
             cd /var/www/ipaasincendin/src
-            sudo pm2 start index.js
+            pm2 start index.js
