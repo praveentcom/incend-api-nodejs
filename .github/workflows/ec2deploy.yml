@@ -37,5 +37,5 @@ jobs:
           ssh_before: |
             sudo rm -rf node_modules package-lock.json
             sudo npm install
-            cd src
+            cd /var/www/ipaasincendin/src
             sudo pm2 start index.js

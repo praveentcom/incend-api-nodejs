@@ -33,7 +33,7 @@ async function isAuthorized(req, res, next) {
   if (isValidUser) {
     next();
   } else {
-    res.writeHead(401, { 'Content-Type':'text/html'});
+    res.writeHead(202, { 'Content-Type':'text/html'});
     html = fs.readFileSync(path.resolve(__dirname, '../static/index-unauthorised.html'));
     res.end(html);
   }
