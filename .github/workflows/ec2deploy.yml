@@ -35,6 +35,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           user: ${{ secrets.EC2_USER }}
           ssh_before: |
+            cd /var/www/ipaasincendin
             sudo npm install
             cd /var/www/ipaasincendin/src
             pm2 start index.js
