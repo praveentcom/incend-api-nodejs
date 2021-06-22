@@ -8,6 +8,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          remote_path: /var/www/ipaasincendin/
+          remote_host: ${{ secrets.EC2_HOST }}
+          remote_user: ${{ secrets.EC2_USER }}
+          remote_key: ${{ secrets.EC2_KEY }}
       - name: SSH Operations
         uses: alinz/ssh-scp-action@master
         with:
@@ -17,13 +27,6 @@ jobs:
           user: ${{ secrets.EC2_USER }}
           ssh_before: |
             sudo pm2 kill
-            cd /var/www/ipaasincendin
-            sudo git stash
-            sudo git stash drop
-            sudo git fetch --all
-            sudo git reset --hard HEAD
-            sudo git clean -f -d
-            sudo git pull
             sudo rm -rf node_modules package-lock.json
             sudo npm install
             cd src
