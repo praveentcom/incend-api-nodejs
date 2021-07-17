@@ -1,6 +1,6 @@
 {
   "name": "ipaas",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Incend Platform as a Service supports authentication, communication and other common services specifically designed to be used by in house teams for their products.",
   "main": "src/index.js",
   "scripts": {
