@@ -1,26 +1,24 @@
 const { getDatabase } = require('./mongo');
 
-const { ObjectID } = require('mongodb');
-
 const collectionName = 'auth';
 
-async function validateUser(authorization) {
+async function validateUser(ipaasKey) {
     const database = await getDatabase();
     const user = await database.collection(collectionName).findOne({
-        accessKey: authorization
-    })
+        accessKey: ipaasKey
+    });
     return user != null;
 }
 
-async function getUserDetails(authorization) {
+async function getClientDetails(ipaasKey) {
     const database = await getDatabase();
     const user = await database.collection(collectionName).findOne({
-        accessKey: authorization
-    })
+        accessKey: ipaasKey
+    });
     return user;
 }
 
 module.exports = {
     validateUser,
-    getUserDetails
+    getClientDetails
 };

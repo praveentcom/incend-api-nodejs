@@ -21,15 +21,22 @@
   },
   "homepage": "https://github.com/incend-digital/IPaaS#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "helmet": "^4.6.0",
     "http": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "loadash": "^1.0.0",
+    "lodash.inrange": "^3.3.6",
+    "mailgun.js": "^3.5.1",
     "mongodb": "^3.6.9",
     "morgan": "^1.10.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "twilio": "^3.66.0"
   }
 }
