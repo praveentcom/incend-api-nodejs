@@ -1,10 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 const fs = require('fs');
 const helmet = require('helmet');
-const morgan = require('morgan');
+const express = require('express');
+const bodyParser = require('body-parser');
 const path = require("path");
+const cors = require('cors');
+const morgan = require('morgan');
 
 const app = express();
 const port = 3000;
@@ -14,11 +14,15 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('combined'));
 
+var authRouter = require('../routes/auth');
+
+app.use('/auth', authRouter);
+
 const { startDatabase } = require('../database/mongo');
-const { validateUser, getUserDetails } = require('../database/auth');
+const { validateUser, getClientDetails } = require('../database/auth');
 
 app.get('/', isAuthorized, async (req, res) => {
-  const user = await getUserDetails((req.headers.authorization === undefined) ? req.query.authorization : req.headers.authorization);
+  const user = await getClientDetails((req.headers.authorization === undefined) ? req.query.authorization : req.headers.authorization);
   res.writeHead(200, { 'Content-Type':'text/html'});
   html = fs.readFileSync(path.resolve(__dirname, '../static/index-authorised.html'));
   html = html.toString().replace('TEAM_NAME', user.name);
