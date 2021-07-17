@@ -22,7 +22,7 @@ const { startDatabase } = require('../database/mongo');
 const { validateUser, getClientDetails } = require('../database/auth');
 
 app.get('/', isAuthorized, async (req, res) => {
-  const user = await getClientDetails((req.headers.authorization === undefined) ? req.query.authorization : req.headers.authorization);
+  const user = await getClientDetails((req.headers.ipaas === undefined) ? req.query.ipaas : req.headers.ipaas);
   res.writeHead(200, { 'Content-Type':'text/html'});
   html = fs.readFileSync(path.resolve(__dirname, '../static/index-authorised.html'));
   html = html.toString().replace('TEAM_NAME', user.name);
@@ -32,7 +32,7 @@ app.get('/', isAuthorized, async (req, res) => {
 });
 
 async function isAuthorized(req, res, next) {
-  const auth = (req.headers.authorization === undefined) ? req.query.authorization : req.headers.authorization;
+  const auth = (req.headers.ipaas === undefined) ? req.query.ipaas : req.headers.ipaas;
   const isValidUser = await validateUser(auth);
   if (isValidUser) {
     next();
