@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const { logger } = require('../helpers/log4js');
 
-var authController = require('../controllers/authController');
+const express = require('express');
+const router = express.Router();
 
-const { validateUser } = require('../database/auth');
+const authController = require('../controllers/authController');
+
+const { validateClient } = require('../database/auth');
 
 router.post('/init', isAuthorized, authController.auth_init);
 router.post('/verify', isAuthorized, authController.auth_verify);
@@ -11,8 +13,11 @@ router.get('/token', isAuthorized, authController.auth_token);
 
 async function isAuthorized(req, res, next) {
     const auth = (req.headers.ipaas === undefined) ? req.query.ipaas : req.headers.ipaas;
-    const isValidUser = await validateUser(auth);
-    isValidUser ? next() : res.status(400).json({ message: 'User not authorised' });
+    const isValidClient = await validateClient(auth);
+    isValidClient ? next() : () => {
+        logger.error('An unknown identity is trying to access IPaaS without proper client API Key. ' + auth + ' is the API Key used.');
+        res.status(400).json({ message: 'Client not authorised' });
+    }
 }
 
 module.exports = router;

@@ -2,23 +2,23 @@ const { getDatabase } = require('./mongo');
 
 const collectionName = 'auth';
 
-async function validateUser(ipaasKey) {
+async function validateClient(ipaasKey) {
     const database = await getDatabase();
-    const user = await database.collection(collectionName).findOne({
+    const client = await database.collection(collectionName).findOne({
         accessKey: ipaasKey
     });
-    return user != null;
+    return client != null;
 }
 
 async function getClientDetails(ipaasKey) {
     const database = await getDatabase();
-    const user = await database.collection(collectionName).findOne({
+    const client = await database.collection(collectionName).findOne({
         accessKey: ipaasKey
     });
-    return user;
+    return client;
 }
 
 module.exports = {
-    validateUser,
+    validateClient,
     getClientDetails
 };
