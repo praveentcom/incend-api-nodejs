@@ -144,7 +144,9 @@ exports.auth_verify = async function (req, res) {
                         userJwtToken: userJwtToken,
                         clientId: clientData._id,
                         userId: user.value._id,
-                        tokenExpiry: tokenExpiry
+                        tokenExpiry: tokenExpiry,
+                        createdAt: new Date(),
+                        modifiedAt: new Date()
                     });
                     return res.json({
                         message: 'User has been verified successfully',
@@ -304,7 +306,6 @@ async function validateEmail(email, clientData) {
                     });
                 });
             }
-            
         }).catch(async (error) => {
             database.collection(blacklistCollectionName).insertOne({
                 entity: email,

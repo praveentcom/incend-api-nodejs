@@ -15,8 +15,10 @@ app.use(cors());
 app.use(morgan('combined'));
 
 var authRouter = require('../routes/auth');
+var userRouter = require('../routes/user');
 
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 const { startDatabase } = require('../database/mongo');
 const { validateUser, getClientDetails } = require('../database/auth');

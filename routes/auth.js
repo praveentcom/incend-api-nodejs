@@ -7,7 +7,7 @@ const { validateUser } = require('../database/auth');
 
 router.post('/init', isAuthorized, authController.auth_init);
 router.post('/verify', isAuthorized, authController.auth_verify);
-router.post('/token', isAuthorized, authController.auth_token);
+router.get('/token', isAuthorized, authController.auth_token);
 
 async function isAuthorized(req, res, next) {
     const auth = (req.headers.ipaas === undefined) ? req.query.ipaas : req.headers.ipaas;
