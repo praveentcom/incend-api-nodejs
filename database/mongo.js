@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 async function startDatabase() {
-    const mongoDBURL = "mongodb+srv://incend-db-api:tHq4bOLDHY9gPs3x@ipaas-prod.qgdzu.mongodb.net/ipaas?retryWrites=true&w=majority"
+    const mongoDBURL = process.env.MONGO_DB_URL;
     const connection = await MongoClient.connect(mongoDBURL, { useNewUrlParser: true, useUnifiedTopology: true });
     database = connection.db();
 }

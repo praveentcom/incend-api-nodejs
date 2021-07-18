@@ -9,14 +9,14 @@ const formData = require('form-data');
 const Mailgun = require('mailgun.js');
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
-    username: 'api',
-    key: process.env.MAILGUN_API_KEY || 'c89cb6e00ed5fbcd8082fdb025c30a97-24e2ac64-1203415c',
-    public_key: process.env.MAILGUN_PUBLIC_KEY || 'pubkey-029fdcc089cbea0b62313e1dfe513100'
+    username: process.env.MAILGUN_API_USER,
+    key: process.env.MAILGUN_API_KEY,
+    public_key: process.env.MAILGUN_PUBLIC_KEY
 });
 
 const twilio = require('twilio');
-const authToken = process.env.TWILIO_AUTH_TOKEN || '9605a22cb667a7832486388e0b3d5e3c';
-const accountSid = process.env.TWILIO_ACCOUNT_SID || 'AC56e10cf1e62aaedb940d74ff55fee8eb';
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const twilioClient = new twilio(accountSid, authToken);
 
 const usersCollectionName = 'users';
@@ -32,9 +32,9 @@ exports.auth_init = async function (req, res) {
     } else {
         const authType = req.body.authType;
         if (authType === 'mobile') {
-            if (req.body.mobile === '+919999999999') return res.json({ message: 'OTP SMS has been sent successfully' });
+            if (req.body.mobile === process.env.TEST_MOBILE) return res.json({ message: 'OTP SMS has been sent successfully' });
         } else {
-            if (req.body.email === 'testing@incend.in') return res.json({ message: 'OTP email has been sent successfully' });
+            if (req.body.email === process.env.TEST_EMAIL) return res.json({ message: 'OTP email has been sent successfully' });
         }
         const database = await getDatabase();
         const user = await getUserDetails(authType, authType === 'mobile' ? req.body.mobile : req.body.email, clientData);
@@ -117,9 +117,9 @@ exports.auth_verify = async function (req, res) {
     } else {
         const authType = req.body.authType;
         if (authType === 'mobile') {
-            if (req.body.mobile === '+919999999999') return res.json({ message: 'OTP has been verified successfully' });
+            if (req.body.mobile === process.env.TEST_MOBILE) return res.json({ message: 'OTP has been verified successfully' });
         } else {
-            if (req.body.email === 'testing@incend.in') return res.json({ message: 'OTP has been verified successfully' });
+            if (req.body.email === process.env.TEST_EMAIL) return res.json({ message: 'OTP has been verified successfully' });
         }
         const database = await getDatabase();
         const twilioVerifyEnabled = clientData.twilioServices.verifyEnabled;

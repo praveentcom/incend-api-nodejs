@@ -9,19 +9,14 @@ const morgan = require('morgan');
 const app = express();
 const port = 3000;
 
+const { startDatabase } = require('../database/mongo');
+const { validateUser, getClientDetails } = require('../database/auth');
+const { getSecret } = require('../helpers/awsSecrets');
+
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('combined'));
-
-var authRouter = require('../routes/auth');
-var userRouter = require('../routes/user');
-
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
-
-const { startDatabase } = require('../database/mongo');
-const { validateUser, getClientDetails } = require('../database/auth');
 
 app.get('/', isAuthorized, async (req, res) => {
   const user = await getClientDetails((req.headers.ipaas === undefined) ? req.query.ipaas : req.headers.ipaas);
@@ -45,8 +40,23 @@ async function isAuthorized(req, res, next) {
   }
 }
 
-startDatabase().then(async () => {
-  app.listen(port, async () => {
-    console.log('IPaaS APIs are up and running.');
+async function retrieveSecrets() {
+  const secretString = await getSecret('ipaas_' + process.env.ENV);
+  const credentials = JSON.parse(secretString);
+  Object.keys(credentials).forEach(function(key) {
+    process.env[key] = credentials[key];
+  });
+  
+}
+
+retrieveSecrets().then(() => {
+  var authRouter = require('../routes/auth');
+  var userRouter = require('../routes/user');
+  app.use('/auth', authRouter);
+  app.use('/user', userRouter);
+  startDatabase().then(() => {
+    app.listen(port, () => {
+      console.log('IPaaS APIs are up and running.');
+    });
   });
 });
