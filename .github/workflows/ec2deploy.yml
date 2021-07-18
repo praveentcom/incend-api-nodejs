@@ -38,4 +38,5 @@ jobs:
             cd /var/www/ipaasincendin
             sudo npm install
             cd /var/www/ipaasincendin/src
+            export ENV=prod
             pm2 start index.js
