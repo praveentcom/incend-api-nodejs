@@ -14,7 +14,9 @@ const { validateClient, getClientDetails } = require('../database/auth');
 const { getSecret } = require('../helpers/awsSecrets');
 const { logger, expressLogger } = require('../helpers/log4js');
 
-app.use(helmet());
+app.use(helmet({
+  hsts: false
+}));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(log4js.connectLogger(expressLogger, {
@@ -39,7 +41,7 @@ async function isAuthorized(req, res, next) {
   if (isValidClient) {
     next();
   } else {
-    res.writeHead(202, { 'Content-Type':'text/html'});
+    res.writeHead(200, { 'Content-Type':'text/html'});
     logger.warn('Root Ping API was hit without proper client authentication.');
     html = fs.readFileSync(path.resolve(__dirname, '../static/index-unauthorised.html'));
     res.end(html);
