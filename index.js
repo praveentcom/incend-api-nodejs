@@ -60,13 +60,14 @@ retrieveSecrets().then(() => {
   app.use('/auth', authRouter);
   app.use('/user', userRouter);
   startDatabase().then(() => {
-    module.exports = app;
     if (process.env.DEBUG || false) {
       app.listen(port, () => {
-        logger.info('IPaaS APIs are up and running.');
+        logger.info('IPaaS APIs are up and running (locally).');
       });
     } else {
       logger.info('IPaaS APIs are up and running.');
     }
   });
 });
+
+module.exports = app;
