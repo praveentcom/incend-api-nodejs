@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const log4js = require('log4js');
+const awsServerlessExpress = require('aws-serverless-express');
 
 const app = express();
 const port = 3000;
@@ -56,20 +57,25 @@ async function retrieveSecrets() {
   });
 }
 
-retrieveSecrets().then(() => {
-  const authRouter = require('./routes/auth');
-  const userRouter = require('./routes/user');
-  app.use('/auth', authRouter);
-  app.use('/user', userRouter);
-  startDatabase().then(() => {
-    if (process.env.DEBUG || false) {
-      app.listen(port, () => {
-        logger.info('IPaaS APIs are up and running (locally).');
+exports.handler = async function(event, context) {
+  const promise = new Promise(function(resolve, reject) {
+    retrieveSecrets().then(() => {
+      const authRouter = require('./routes/auth');
+      const userRouter = require('./routes/user');
+      app.use('/auth', authRouter);
+      app.use('/user', userRouter);
+      startDatabase().then(() => {
+        if (event === 'debug') {
+          app.listen(port, () => {
+            resolve('IPaaS APIs are up and running (locally).');
+          });
+        } else {
+          logger.info('IPaaS APIs are up and running (AWS).');
+          const server = awsServerlessExpress.createServer(app);
+          resolve(awsServerlessExpress.proxy(server, event, context));
+        }
       });
-    } else {
-      logger.info('IPaaS APIs are up and running.');
-    }
+    });
   });
-});
-
-module.exports = app;
+  return promise;
+}

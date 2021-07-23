@@ -4,7 +4,8 @@
   "description": "Incend Platform as a Service supports authentication, communication and other common services specifically designed to be used by in house teams for their products.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "local": "node index-local.js"
   },
   "repository": {
     "type": "git",
