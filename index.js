@@ -5,15 +5,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const log4js = require('log4js');
-const serverless = require('serverless-http');
 
 const app = express();
 const port = 3000;
 
-const { startDatabase } = require('../database/mongo');
-const { validateClient, getClientDetails } = require('../database/auth');
-const { getSecret } = require('../helpers/awsSecrets');
-const { logger, expressLogger } = require('../helpers/log4js');
+const { startDatabase } = require('./database/mongo');
+const { validateClient, getClientDetails } = require('./database/auth');
+const { getSecret } = require('./helpers/awsSecrets');
+const { logger, expressLogger } = require('./helpers/log4js');
 
 app.use(helmet());
 app.use(bodyParser.json());
@@ -56,15 +55,19 @@ async function retrieveSecrets() {
 }
 
 retrieveSecrets().then(() => {
-  var authRouter = require('../routes/auth');
-  var userRouter = require('../routes/user');
+  var authRouter = require('./routes/auth');
+  var userRouter = require('./routes/user');
   app.use('/auth', authRouter);
   app.use('/user', userRouter);
   startDatabase().then(() => {
-    app.listen(port, () => {
+    module.exports = app;
+    if (process.env.DEBUG || false) {
+      app.listen(port, () => {
+        logger.info('IPaaS APIs are up and running.');
+      });
+    } else {
       logger.info('IPaaS APIs are up and running.');
-    });
+    }
   });
 });
 
-module.exports.handler = serverless(app);

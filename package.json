@@ -2,10 +2,9 @@
   "name": "ipaas",
   "version": "1.4.0",
   "description": "Incend Platform as a Service supports authentication, communication and other common services specifically designed to be used by in house teams for their products.",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start": "node src"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -14,7 +13,7 @@
   "keywords": [
     "ipaas"
   ],
-  "author": "Incend Digital Private Limited",
+  "author": "Incend Digital Private Limited <support@incend.in>",
   "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/incend-digital/IPaaS/issues"
@@ -22,6 +21,7 @@
   "homepage": "https://github.com/incend-digital/IPaaS#readme",
   "dependencies": {
     "aws-sdk": "^2.948.0",
+    "aws-serverless-express": "^3.4.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
