@@ -55,8 +55,8 @@ async function retrieveSecrets() {
 }
 
 retrieveSecrets().then(() => {
-  var authRouter = require('./routes/auth');
-  var userRouter = require('./routes/user');
+  const authRouter = require('./routes/auth');
+  const userRouter = require('./routes/user');
   app.use('/auth', authRouter);
   app.use('/user', userRouter);
   startDatabase().then(() => {
@@ -70,4 +70,3 @@ retrieveSecrets().then(() => {
     }
   });
 });
-
