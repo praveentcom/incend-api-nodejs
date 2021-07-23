@@ -32,8 +32,6 @@ configure({
     }
 });
 
-console.log('Logger file is loaded');
-
 const logger = getLogger();
 const expressLogger = getLogger('aws_express');
 

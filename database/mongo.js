@@ -5,8 +5,7 @@ async function startDatabase() {
     const mongoDBURL = process.env.MONGO_DB_URL;
     const connection = await MongoClient.connect(mongoDBURL, { useNewUrlParser: true, useUnifiedTopology: true });
     database = connection.db();
-    logger.info('Successfully established connection to the database.');
-    console.log('Mongo file is loaded');
+    logger.info('Successfully established connection to the database.')
 }
 
 async function getDatabase() {

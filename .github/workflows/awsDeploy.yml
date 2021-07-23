@@ -1,0 +1,49 @@
+name: Deploy to AWS EB
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  localBuild:
+    name: Local Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v2
+    - name: Get Package Version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@master
+    - name: Generate Package
+      run: zip -r deploy.zip . -x '*.git*'
+    - name: Deploy to Elastic Beanstack
+      uses: einaregilsson/beanstalk-deploy@v16
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: ipaas-api-local
+        environment_name: ipaas-api-local-env
+        version_label: ipaas-api-local-${{ steps.package-version.outputs.current-version}}
+        region: ap-south-1
+        deployment_package: deploy.zip
+  prodBuild:
+    name: Prod Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v2
+    - name: Get Package Version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@master
+    - name: Generate Package
+      run: zip -r deploy.zip . -x '*.git*'
+    - name: Deploy to Elastic Beanstack
+      uses: einaregilsson/beanstalk-deploy@v16
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: ipaas-api-prod
+        environment_name: ipaas-api-prod-env
+        version_label: ipaas-api-prod-${{ steps.package-version.outputs.current-version}}
+        region: ap-south-1
+        deployment_package: deploy.zip
