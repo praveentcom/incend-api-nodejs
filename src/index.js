@@ -7,7 +7,7 @@ const path = require('path');
 const log4js = require('log4js');
 
 const app = express();
-const port = 8081;
+const port = 8080;
 
 const { startDatabase } = require('../database/mongo');
 const { validateClient, getClientDetails } = require('../database/auth');
