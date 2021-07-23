@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const log4js = require('log4js');
+const awsServerlessExpress = require('aws-serverless-express')
 
 const app = express();
 const port = 3000;
@@ -66,4 +67,5 @@ retrieveSecrets().then(() => {
   });
 });
 
-module.exports = app;
+const server = awsServerlessExpress.createServer(app);
+exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context);
