@@ -7,7 +7,7 @@ const path = require('path');
 const log4js = require('log4js');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 3000;
 
 const { startDatabase } = require('../database/mongo');
 const { validateClient, getClientDetails } = require('../database/auth');
@@ -62,14 +62,9 @@ retrieveSecrets().then(() => {
   app.use('/auth', authRouter);
   app.use('/user', userRouter);
   startDatabase().then(() => {
-    module.exports = app;
-    if (process.env.DEBUG || false) {
-      app.listen(port, () => {
-        logger.info('IPaaS APIs are up and running.');
-      });
-    } else {
-      logger.info('IPaaS APIs are up and running.');
-    }
+    app.listen(port, () => {
+      logger.info('IPaaS APIs are up and running on port - ' + port + '.');
+    });
   });
 });
 

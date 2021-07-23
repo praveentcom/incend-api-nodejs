@@ -21,9 +21,9 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: ipaas-api-local
-        environment_name: ipaas-api-local-env
-        version_label: ipaas-api-local-${{ steps.package-version.outputs.current-version}}
+        application_name: ipaas-local
+        environment_name: ipaas-local
+        version_label: ipaas-local-${{ steps.package-version.outputs.current-version}}
         region: ap-south-1
         deployment_package: deploy.zip
   prodBuild:
@@ -42,8 +42,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: ipaas-api-prod
-        environment_name: ipaas-api-prod-env
-        version_label: ipaas-api-prod-${{ steps.package-version.outputs.current-version}}
+        application_name: ipaas-prod
+        environment_name: ipaas-prod
+        version_label: ipaas-prod-${{ steps.package-version.outputs.current-version}}
         region: ap-south-1
         deployment_package: deploy.zip
