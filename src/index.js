@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const log4js = require('log4js');
-const serverless = require('serverless-http');
 
 const app = express();
 const port = 3000;
@@ -67,4 +66,4 @@ retrieveSecrets().then(() => {
   });
 });
 
-module.exports.handler = serverless(app);
+module.exports = app;
