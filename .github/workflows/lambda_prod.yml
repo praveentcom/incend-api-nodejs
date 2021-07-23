@@ -9,7 +9,7 @@ jobs:
     name: Lambda Deploy
     strategy:
       matrix:
-        node-version: [14]
+        node-version: ['14']
     runs-on: ubuntu-latest
     steps:
       - name: Checkout files
