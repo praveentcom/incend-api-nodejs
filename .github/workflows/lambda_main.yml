@@ -12,7 +12,7 @@ jobs:
       name: local
     steps:
     - name: Checkout Files
-    - uses: actions/checkout@v1
+      uses: actions/checkout@v1
     - name: Configure AWS
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -21,10 +21,9 @@ jobs:
         aws-region: ap-south-1
     - name: Prepare Environment Variables
       id: create-env
-      uses: schdck/create-env-json@v1
+      uses: schdck/create-env-json@v2
       with:
         file-name: './env.local.json'
-        STAGE: 'local'
         ENV: 'local'
     - name: Prepare Node.js 14
       uses: actions/setup-node@v2
@@ -38,16 +37,16 @@ jobs:
       env:
         CI: true
     - name: Send to AWS
-      run: claudia set-version --version local --config api-config.json --set-env-from-json $
+      run: claudia set-version --version v1 --config api-config-local.json --set-env-from-json ./env.local.json
 
   prodDeploy:
     name: Deploy Prod
-    runs-on: ubuntu-latest
     environment:
-      name: prod
+      name: local
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Files
-    - uses: actions/checkout@v1
+      uses: actions/checkout@v1
     - name: Configure AWS
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -56,10 +55,9 @@ jobs:
         aws-region: ap-south-1
     - name: Prepare Environment Variables
       id: create-env
-      uses: schdck/create-env-json@v1
+      uses: schdck/create-env-json@v2
       with:
         file-name: './env.prod.json'
-        STAGE: 'prod'
         ENV: 'prod'
     - name: Prepare Node.js 14
       uses: actions/setup-node@v2
@@ -73,4 +71,4 @@ jobs:
       env:
         CI: true
     - name: Send to AWS
-      run: claudia set-version --version prod --config api-config.json --set-env-from-json $
+      run: claudia set-version --version v1 --config api-config-prod.json --set-env-from-json ./env.prod.json

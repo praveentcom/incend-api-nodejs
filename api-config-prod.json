@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "ipaas-api-prod-executor",
+    "name": "ipaas-api-prod",
+    "region": "ap-south-1"
+  },
+  "api": {
+    "id": "omwzyrblde"
+  }
+}
