@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - name: Build application
-        run: npm install && npm run build && zip -r -q -1 ./bundle.zip .
+      - name: Prepare application
+        run: npm install && zip -r -q -1 ./bundle.zip .
       - name: Deploy to AWS Lambda
         uses: appleboy/lambda-action@master
         with:
