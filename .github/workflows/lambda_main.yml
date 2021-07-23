@@ -8,8 +8,6 @@ jobs:
   localDeploy:
     name: Deploy Local
     runs-on: ubuntu-latest
-    environment:
-      name: local
     steps:
     - name: Checkout Files
     - uses: actions/checkout@v1
@@ -43,8 +41,6 @@ jobs:
   prodDeploy:
     name: Deploy Prod
     runs-on: ubuntu-latest
-    environment:
-      name: prod
     steps:
     - name: Checkout Files
     - uses: actions/checkout@v1
