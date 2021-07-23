@@ -10,6 +10,7 @@ async function getSecret(secretName) {
     if ("SecretString" in response) {
         return response.SecretString;
     }
+    console.log('Secrets file is loaded');
     return Buffer.from(response.SecretBinary, "base64").toString("ascii");
 }
 

@@ -33,6 +33,8 @@ app.get('/', isAuthorized, async (req, res) => {
   res.end(html);
 });
 
+console.log('Index file is loaded');
+
 async function isAuthorized(req, res, next) {
   const auth = (req.headers.ipaas === undefined) ? req.query.ipaas : req.headers.ipaas;
   const isValidClient = await validateClient(auth);
