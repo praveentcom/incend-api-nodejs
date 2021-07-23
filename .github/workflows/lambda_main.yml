@@ -37,7 +37,7 @@ jobs:
       env:
         CI: true
     - name: Send to AWS
-      run: claudia set-version --version local --config api-config.json --set-env-from-json ./env.local.json
+      run: claudia set-version --version v1 --config api-config-local.json --set-env-from-json ./env.local.json
 
   prodDeploy:
     name: Deploy Prod
@@ -71,4 +71,4 @@ jobs:
       env:
         CI: true
     - name: Send to AWS
-      run: claudia set-version --version prod --config api-config.json --set-env-from-json ./env.prod.json
+      run: claudia set-version --version v1 --config api-config-prod.json --set-env-from-json ./env.prod.json
