@@ -42,8 +42,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: ipaas-prod
-        environment_name: ipaas-prod
-        version_label: ipaas-prod-${{ steps.package-version.outputs.current-version}}
+        application_name: ipaas
+        environment_name: ipaas
+        version_label: ipaas-${{ steps.package-version.outputs.current-version}}
         region: ap-south-1
         deployment_package: deploy.zip

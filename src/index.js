@@ -49,6 +49,7 @@ async function isAuthorized(req, res, next) {
 }
 
 async function retrieveSecrets() {
+  process.env.ENV = 'prod';
   const secretString = await getSecret('ipaas_' + process.env.ENV);
   const credentials = JSON.parse(secretString);
   Object.keys(credentials).forEach(function(key) {
