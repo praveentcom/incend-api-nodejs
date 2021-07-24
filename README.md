@@ -1,5 +1,6 @@
-## IPaaS - Incend Platform as a Service
-##### v1.4.0 - IPaaS supports authentication, communication and other common services specifically designed to be used by in-house teams for their products. The mission for IPaaS is to help the sub-products in Incend to work seemlessly without any issues, get new products rolled out to market faster and fix security vulnerabilities related to key components faster.
+## IPaaS - Incend Platform as a Service [![EC2 Deploy](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml/badge.svg)](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml)
+
+##### IPaaS supports authentication, communication and other common services specifically designed to be used by in-house teams for their products. The mission for IPaaS is to help the sub-products in Incend to work seemlessly without any issues, get new products rolled out to market faster and fix security vulnerabilities related to key components faster.
 
 <hr>
 

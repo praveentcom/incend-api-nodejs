@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: EC2 Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Files
@@ -38,6 +39,5 @@ jobs:
             cd /var/www/ipaasincendin
             sudo npm install
             cd /var/www/ipaasincendin/src
-            export ENV=prod
-            pm2 start index.js -- prod
-            pm2 start index.js -- local
+            pm2 start index.js --name prod -- prod
+            pm2 start index.js --name local -- local
