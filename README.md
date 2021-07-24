@@ -1,6 +1,8 @@
-## IPaaS - Incend Platform as a Service [![EC2 Deploy](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml/badge.svg)](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml)
+## IPaaS - Incend Platform as a Service
 
-##### IPaaS supports authentication, communication and other common services specifically designed to be used by in-house teams for their products. The mission for IPaaS is to help the sub-products in Incend to work seemlessly without any issues, get new products rolled out to market faster and fix security vulnerabilities related to key components faster.
+[![EC2 Deploy](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml/badge.svg)](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml)
+
+IPaaS supports authentication, communication and other common services specifically designed to be used by in-house teams for their products. The mission for IPaaS is to help the sub-products in Incend to work seemlessly without any issues, get new products rolled out to market faster and fix security vulnerabilities related to key components faster.
 
 <hr>
 
@@ -13,25 +15,26 @@ The Auth APIs collection contains all the APIs for the client to perform authent
 OTP can be sent via `sms` or `email` channel for now. Addition of `WhatsApp` as another channel will be available soon. The client must be authorised by IPaaS to use authentication and the services to send or verify OTPs. Contact the IPaaS support team to complete this process.
 
 **Description of the terms used**
+
 1. `Client` - The sub-division of Incend. An example for a client can be Pupl.
-2. `User` / `End User` - The user of the products the client provides.
+1. `User` - The user of the products the client provides.
 
 **Process for user authentication**
 
-**Step 1** - Start user OTP verification\
-**Step 2** - Verify user OTP to get JWT\
-**Step 3** - Transfer JWT to user\
-**Step 4** - Verify JWT for all client tasks
+1. Start user OTP verification
+1. Verify user OTP to get JWT
+1. Transfer JWT to user
+1. Verify JWT for all client tasks
 
->**Note - Privacy Disclaimer**
->
->Incend has a strict policy of protecting user data. None of the personally identifiable information can be stored in the client database. While performing API communications between IPaaS and client backend services, IPaaS don't transfer any kind of this information as well.
->
->For the sake of managing the user data, the client **IS ONLY ALLOWED** to save the userId passed during authentication. The userId can be enough for the client to save data that will be anonymous and difficult to track down in case of breaches.
->
->**For showing the PII (Personally Identifiable Information) like name inside the client app or website, user can directly contact IPaaS's `Auth Master View API` with their Base64 version of `userJwtToken` provided via the client after authentication. Similarly, edits can also be made to such information only via direct call to our `Auth Master Edit API` from the user device. Both these APIs are not allowed from client backend.**
+**Note - Privacy Disclaimer**
 
----
+Incend has a strict policy of protecting user data. None of the personally identifiable information can be stored in the client database. While performing API communications between IPaaS and client backend services, IPaaS don't transfer any kind of this information as well.
+
+For the sake of managing the user data, the client **IS ONLY ALLOWED** to save the userId passed during authentication. The userId can be enough for the client to save data that will be anonymous and difficult to track down in case of breaches.
+
+**For showing the PII (Personally Identifiable Information) like name inside the client app or website, user can directly contact IPaaS's `User Profile API` with their Base64 version of `userJwtToken` provided via the client after authentication. Similarly, edits can also be made to such information only via direct call to our `User Profile Edit API` from the user device. Both these APIs are not allowed from client backend.**
+
+<hr>
 
 ### User APIs - For Client's Users
 
@@ -41,16 +44,19 @@ The User APIs collection contains all the APIs for the client's users and can be
 
 The client user can be authenticated by sending a Bearer token with each request. The token will be the Base64 version of JWT shared during authentication.
 
-**Description of the terms used**
-1. `Client` - The sub-division of Incend. An example for a client can be Pupl.
-2. `User` / `End User` - The user of the products the client provides.
+<hr>
 
----
+This library can be used directly in the nodejs applications with the help of `ipaas-nodejs` package available in the NPM registry.
 
->**Note - Privacy Disclaimer**
->
->Incend has a strict policy of protecting user data. None of the personally identifiable information can be stored in the client database. While performing API communications between IPaaS and client backend services, IPaaS don't transfer any kind of this information as well.
->
->For the sake of managing the user data, the client **IS ONLY ALLOWED** to save the userId passed during authentication. The userId is enough for the client to save data that will be anonymous and difficult to track down in case of breaches.
->
->**For showing the PII (Personally Identifiable Information) like name inside the client app or website, user can directly contact IPaaS's `User Profile API` with their Base64 version of `userJwtToken` provided via the client after authentication. Similarly, edits can also be made to such information only via direct call to our `User Profile Edit API` from the user device. Both these APIs are not allowed from client backend.**
+To install, run - ```npm install ipaas-nodejs```.
+
+Once installed, the library can be used as follows,
+
+```
+const ipaas = require('ipaas-nodejs');
+
+async () => {
+    var sendOtpResponse = await ipaas(apiKey).auth().sendOtp('mobile', '+918838118348');
+    var verifyOtpResponse = await ipaas(apiKey).auth().verifyOtp('mobile', '+918838118348', '0123');
+}
+```
