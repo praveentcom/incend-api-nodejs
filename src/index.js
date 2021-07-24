@@ -7,16 +7,14 @@ const path = require('path');
 const log4js = require('log4js');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = (process.argv.slice(2) === 'prod') ? 3000 : 3001;
 
 const { startDatabase } = require('../database/mongo');
 const { validateClient, getClientDetails } = require('../database/auth');
 const { getSecret } = require('../helpers/awsSecrets');
 const { logger, expressLogger } = require('../helpers/log4js');
 
-app.use(helmet({
-  hsts: false
-}));
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 app.use(log4js.connectLogger(expressLogger, {
@@ -49,7 +47,7 @@ async function isAuthorized(req, res, next) {
 }
 
 async function retrieveSecrets() {
-  const secretString = await getSecret('ipaas_' + process.env.ENV);
+  const secretString = await getSecret('ipaas_' + process.argv.slice(2));
   const credentials = JSON.parse(secretString);
   Object.keys(credentials).forEach(function(key) {
     process.env[key] = credentials[key];

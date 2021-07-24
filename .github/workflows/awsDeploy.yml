@@ -1,49 +1,43 @@
-name: Deploy to AWS EB
+name: EC2 Deploy
+
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  localBuild:
-    name: Local Deploy
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Source
-      uses: actions/checkout@v2
-    - name: Get Package Version
-      id: package-version
-      uses: martinbeentjes/npm-get-version-action@master
-    - name: Generate Package
-      run: zip -r deploy.zip . -x '*.git*'
-    - name: Deploy to Elastic Beanstack
-      uses: einaregilsson/beanstalk-deploy@v16
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: ipaas-local
-        environment_name: ipaas-local
-        version_label: ipaas-local-${{ steps.package-version.outputs.current-version}}
-        region: ap-south-1
-        deployment_package: deploy.zip
-  prodBuild:
-    name: Prod Deploy
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Source
-      uses: actions/checkout@v2
-    - name: Get Package Version
-      id: package-version
-      uses: martinbeentjes/npm-get-version-action@master
-    - name: Generate Package
-      run: zip -r deploy.zip . -x '*.git*'
-    - name: Deploy to Elastic Beanstack
-      uses: einaregilsson/beanstalk-deploy@v16
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: ipaas
-        environment_name: ipaas
-        version_label: ipaas-${{ steps.package-version.outputs.current-version}}
-        region: ap-south-1
-        deployment_package: deploy.zip
+      - name: Checkout Files
+        uses: actions/checkout@v2
+      - name: Stop PM2
+        uses: alinz/ssh-scp-action@master
+        with:
+          port: 22
+          key: ${{ secrets.EC2_KEY }}
+          host: ${{ secrets.EC2_HOST_IPAAS }}
+          user: ${{ secrets.EC2_USER }}
+          ssh_before: |
+            pm2 kill
+      - name: Copy Files
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          remote_path: /var/www/ipaasincendin/
+          remote_key: ${{ secrets.EC2_KEY }}
+          remote_host: ${{ secrets.EC2_HOST_IPAAS }}
+          remote_user: ${{ secrets.EC2_USER }}
+      - name: Start PM2
+        uses: alinz/ssh-scp-action@master
+        with:
+          port: 22
+          key: ${{ secrets.EC2_KEY }}
+          host: ${{ secrets.EC2_HOST_IPAAS }}
+          user: ${{ secrets.EC2_USER }}
+          ssh_before: |
+            cd /var/www/ipaasincendin
+            sudo npm install
+            cd /var/www/ipaasincendin/src
+            export ENV=prod
+            pm2 start index.js -- prod
+            pm2 start index.js -- local

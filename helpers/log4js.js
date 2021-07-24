@@ -14,14 +14,14 @@ configure({
         aws: {
             type: 'log4js-cloudwatch-appender',
             region: 'ap-south-1',
-            logGroup: 'ipaas-' + process.env.ENV,
+            logGroup: 'ipaas-' + process.argv.slice(2),
             logStream: 'api-logs',
             layout: layout
         },
         aws_express: {
             type: 'log4js-cloudwatch-appender',
             region: 'ap-south-1',
-            logGroup: 'ipaas-' + process.env.ENV,
+            logGroup: 'ipaas-' + process.argv.slice(2),
             logStream: 'api-calls',
             layout: layout
         }

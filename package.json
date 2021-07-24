@@ -5,21 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "npm test",
-    "start": "node src"
+    "start": "node src local"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/incend-digital/IPaaS.git"
+    "url": "git+https://github.com/incend-digital/IPaaS-API.git"
   },
   "keywords": [
-    "ipaas"
+    "ipaas",
+    "incend",
+    "api"
   ],
   "author": "Incend Digital Private Limited",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/incend-digital/IPaaS/issues"
+    "url": "https://github.com/incend-digital/IPaaS-API/issues"
   },
-  "homepage": "https://github.com/incend-digital/IPaaS#readme",
+  "homepage": "https://github.com/incend-digital/IPaaS-API#readme",
   "dependencies": {
     "aws-sdk": "^2.948.0",
     "body-parser": "^1.19.0",
