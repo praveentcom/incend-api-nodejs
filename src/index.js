@@ -22,7 +22,7 @@ app.use(log4js.connectLogger(expressLogger, {
   format: (req, _res, format) => format(':method :url :status (' + req.headers.host  + ' :http-version :user-agent)')
 }));
 
-app.get('/', isAuthorized, async (req, res) => {
+app.get(returnLocalPrefix() + '/', isAuthorized, async (req, res) => {
   const client = await getClientDetails((req.headers.ipaas === undefined) ? req.query.ipaas : req.headers.ipaas);
   res.writeHead(200, { 'Content-Type':'text/html'});
   logger.info('Root Ping API was accessed by ' + client.name);
@@ -54,11 +54,16 @@ async function retrieveSecrets() {
   });
 }
 
+function returnLocalPrefix() {
+  if (process.argv[2] === 'prod') return '';
+  else return 'local';
+}
+
 retrieveSecrets().then(() => {
   var authRouter = require('../routes/auth');
   var userRouter = require('../routes/user');
-  app.use('/auth', authRouter);
-  app.use('/user', userRouter);
+  app.use(returnLocalPrefix() + '/auth', authRouter);
+  app.use(returnLocalPrefix() + '/user', userRouter);
   startDatabase().then(() => {
     app.listen(port, () => {
       logger.info('IPaaS APIs are up and running on port - ' + port + '.');
