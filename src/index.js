@@ -56,7 +56,7 @@ async function retrieveSecrets() {
 
 function returnLocalPrefix() {
   if (process.argv[2] === 'prod') return '';
-  else return 'local';
+  else return '/local';
 }
 
 retrieveSecrets().then(() => {
