@@ -24,6 +24,7 @@ exports.edit_profile = async function (req, res) {
                     name: user.name,
                     email: user.email,
                     mobile: user.mobile,
+                    data: user.data,
                     isEmailVerified: user.isEmailVerified,
                     isMobileVerified: user.isMobileVerified
                 });
@@ -111,9 +112,16 @@ async function updateUserDetails(userId, req) {
     var userDocument = {
         _id: userId
     }
+    var updateData = {
+        allowed: true
+    }
+    req.body.data.forEach(data => {
+        updateData[data] = req.body.data[data];
+    });
     const user = await database.collection(usersCollectionName).findOneAndUpdate(userDocument, {
         $set: {
-            name: req.body.name
+            name: req.body.name,
+            updateData: updateData
         }
     }, {
         returnDocument: 'after'
