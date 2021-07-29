@@ -24,6 +24,7 @@
   "homepage": "https://github.com/incend-digital/IPaaS-API#readme",
   "dependencies": {
     "aws-sdk": "^2.948.0",
+    "aws-xray-sdk": "1.1.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",

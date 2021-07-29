@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const log4js = require('log4js');
+const AWSXRay = require('aws-xray-sdk');
 
 const app = express();
 const port = (process.argv[2] === 'prod') ? 3000 : 3001;
@@ -17,6 +18,7 @@ const { logger, expressLogger } = require('../helpers/log4js');
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
+app.use(AWSXRay.express.openSegment('ipaas_' + process.argv.slice(2)));
 app.use(log4js.connectLogger(expressLogger, {
   level: 'auto',
   format: (req, _res, format) => format(':method :url :status (' + req.headers.host  + ' :http-version :user-agent)')
@@ -64,6 +66,7 @@ retrieveSecrets().then(() => {
   var userRouter = require('../routes/user');
   app.use(returnLocalPrefix() + '/auth', authRouter);
   app.use(returnLocalPrefix() + '/user', userRouter);
+  app.use(AWSXRay.express.closeSegment());
   startDatabase().then(() => {
     app.listen(port, () => {
       logger.info('IPaaS APIs are up and running on port - ' + port + '.');
