@@ -1,6 +1,6 @@
 ## IPaaS - Incend Platform as a Service
 
-[![EC2 Deploy](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml/badge.svg)](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml)
+[![EC2 Deploy](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml/badge.svg)](https://github.com/incend-digital/IPaaS-API/actions/workflows/awsDeploy.yml) [![Better Uptime Badge](https://betteruptime.com/status-badges/v1/monitor/865g.svg)](https://betteruptime.com/?utm_source=status_badge)
 
 IPaaS supports authentication, communication and other common services specifically designed to be used by in-house teams for their products. The mission for IPaaS is to help the sub-products in Incend to work seemlessly without any issues, get new products rolled out to market faster and fix security vulnerabilities related to key components faster.
 
