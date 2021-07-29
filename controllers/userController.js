@@ -121,7 +121,7 @@ async function updateUserDetails(userId, req) {
     const user = await database.collection(usersCollectionName).findOneAndUpdate(userDocument, {
         $set: {
             name: req.body.name,
-            updateData: updateData
+            data: updateData
         }
     }, {
         returnDocument: 'after'
