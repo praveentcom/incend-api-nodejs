@@ -115,7 +115,7 @@ async function updateUserDetails(userId, req) {
     var updateData = {
         allowed: true
     }
-    req.body.data.forEach(data => {
+    Object.keys(req.body.data).forEach(data => {
         updateData[data] = req.body.data[data];
     });
     const user = await database.collection(usersCollectionName).findOneAndUpdate(userDocument, {
