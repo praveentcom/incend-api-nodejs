@@ -194,6 +194,7 @@ exports.auth_verify = async function (req, res) {
                     return res.json({
                         message: 'User has been verified successfully',
                         userId: user.value._id,
+                        name: user.name,
                         userData: user.value.data,
                         userJwtToken: userJwtToken,
                         tokenExpiry: tokenExpiry
