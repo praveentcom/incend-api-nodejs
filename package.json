@@ -36,7 +36,7 @@
     "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",
     "lodash.inrange": "^3.3.6",
-    "log4js": "^6.3.0",
+    "log4js": "^6.4.0",
     "log4js-cloudwatch-appender": "^1.1.0",
     "log4js-json-layout": "^2.2.3",
     "mailgun.js": "^3.5.1",
