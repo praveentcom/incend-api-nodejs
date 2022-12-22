@@ -33,7 +33,7 @@
     "fs": "^0.0.1-security",
     "helmet": "^4.6.0",
     "http": "^0.0.1-security",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "loadash": "^1.0.0",
     "lodash.inrange": "^3.3.6",
     "log4js": "^6.4.0",
